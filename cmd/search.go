@@ -23,7 +23,7 @@ import (
 	"net/http"
 	"io/ioutil"
 	"strconv"
-	"strings"
+    "strings"
 )
 
 var includedFields string
@@ -95,43 +95,42 @@ To search for (a+b)=c
 The reserved characters are: + - = && || > < ! ( ) { } [ ] ^ " ~ * ? : \ /
 Failing to escape these reserved characters correctly would lead to syntax errors and prevent the query from running.	
 `,
-	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) == 0 {
-      fmt.Println("No query provided")
-      fmt.Println("To list all available resources, use '' as query")
-			os.Exit(1)
+	Run: handleSearch,
+}
+
+func handleSearch(cmd *cobra.Command, args []string) {
+	if len(args) == 0 {
+		fmt.Println("No query provided")
+		fmt.Println("To list all available resources, use '' as query")
+			  os.Exit(1)
 		}
+    req, err := http.NewRequest("GET", "https://"+ os.Getenv("NSXTEA_URL")+ "/policy/api/v1/search/query?", nil)
 
-		
-		
-		req, err := http.NewRequest("GET", "https://"+ os.Getenv("NSXTEA_URL")+ "/policy/api/v1/search/query?", nil)
+    query := concatArgs(args)
+    q := req.URL.Query()
+    q.Add("query", query)
+    q.Add("included_fields", includedFields)
+    q.Add("sort_ascending", strconv.FormatBool(sortAscending))
+    q.Add("sort_by", sortBy)
+    q.Add("cursor", cursor)
+    q.Add("page_size", pageSize)
+    req.URL.RawQuery = q.Encode()
 
-		query := concatArgs(args)
-		q := req.URL.Query()
-		q.Add("query", query)
-		q.Add("included_fields", includedFields)
-		q.Add("sort_ascending", strconv.FormatBool(sortAscending))
-    	q.Add("sort_by", sortBy)
-    	q.Add("cursor", cursor)
-    	q.Add("page_size", pageSize)
-    	req.URL.RawQuery = q.Encode()
-	
-		req.SetBasicAuth(
-			os.Getenv("NSXTEA_USERNAME"),
-			os.Getenv("NSXTEA_PASSWORD"),
-		)
-		client := &http.Client{}
-		resp, err := client.Do(req)
-		if err != nil{
-			fmt.Println(err)
-			os.Exit(1)
-		}
+    req.SetBasicAuth(
+        os.Getenv("NSXTEA_USERNAME"),
+        os.Getenv("NSXTEA_PASSWORD"),
+    )    
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    if err != nil{
+        fmt.Println(err)
+        os.Exit(1)
+    }
 
-		bodyText, err := ioutil.ReadAll(resp.Body)
-		printErrIfNotNil(err)
-        s := string(bodyText)
-		fmt.Println(s)
-	},
+    bodyText, err := ioutil.ReadAll(resp.Body)
+    printErrIfNotNil(err)
+    s := string(bodyText)
+    fmt.Println(s)
 }
 
 func init() {
