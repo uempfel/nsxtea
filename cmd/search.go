@@ -95,15 +95,11 @@ To search for (a+b)=c
 The reserved characters are: + - = && || > < ! ( ) { } [ ] ^ " ~ * ? : \ /
 Failing to escape these reserved characters correctly would lead to syntax errors and prevent the query from running.	
 `,
-	Run: handleSearch,
+    Run: handleSearch,
+    Args: cobra.MinimumNArgs(1),
 }
 
 func handleSearch(cmd *cobra.Command, args []string) {
-	if len(args) == 0 {
-		fmt.Println("No query provided")
-		fmt.Println("To list all available resources, use '' as query")
-			  os.Exit(1)
-		}
     req, err := http.NewRequest("GET", "https://"+ os.Getenv("NSXTEA_URL")+ "/policy/api/v1/search/query?", nil)
 
     query := concatArgs(args)
@@ -141,19 +137,6 @@ func init() {
   	searchCmd.PersistentFlags().BoolVarP(&sortAscending, "sort_ascending","a", true, "Sorting order of the query results")
   	searchCmd.PersistentFlags().StringVarP(&cursor, "cursor", "c", "", "Opaque cursor to be used for getting next page of records (supplied by current result page)")
   	searchCmd.PersistentFlags().StringVarP(&pageSize, "page_size", "p", "1000", "Maximum number of results to return in this page \nMin: 0, Max: 1000")
-
-
-
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// searchCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// searchCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
 func concatArgs(args[] string) string {
