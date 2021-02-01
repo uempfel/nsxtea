@@ -1,4 +1,4 @@
-![nsxtea logo](https://user-images.githubusercontent.com/28337775/106447575-f3df7980-6481-11eb-8cba-df7fd97d3c17.png)
+![nsxtea logo](https://user-images.githubusercontent.com/28337775/106465522-593f6480-649a-11eb-9262-bf94e3add74a.png)
 
 Nsxtea is a small CLI to interact with the VMware NSX-T Policy Search API.
 
