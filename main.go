@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "nsxtea/cmd"
+import "github.com/uempfel/nsxtea/cmd"
 
 func main() {
 	cmd.Execute()
