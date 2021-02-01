@@ -34,7 +34,7 @@ var cfgFile string
 var rootCmd = &cobra.Command{
 	Use:   "nsxtea",
 	Short: "A Command Line Tool to interact with the NSX-T Policy API",
-	Long: `To configure the CLI, set following Environment Variables:
+	Long: `To configure the CLI, set the following environment variables:
 
 NSXTEA_URL (required)
 NSXTEA_USERNAME (required)
