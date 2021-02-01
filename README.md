@@ -10,7 +10,11 @@ go get github.com/uempfel/nsxtea
 go install github.com/uempfel/nsxtea
 ```
 
+If you're getting  a `command not found` error, you might have to add your "go binary" directory to your PATH. To do so, run:
+```sh 
+export PATH=$PATH:$(go env GOPATH)/bin
+```
 
 ### Image Credits
-Gopher: [Maria Letta - Free Gophers Pack](https://github.com/MariaLetta/free-gophers-pack)
-Teacup: [RROOK, NL](https://thenounproject.com/term/cup-of-tea/2870740/)
+* Gopher: [Maria Letta - Free Gophers Pack](https://github.com/MariaLetta/free-gophers-pack)
+* Teacup: [RROOK, NL](https://thenounproject.com/term/cup-of-tea/2870740/)
