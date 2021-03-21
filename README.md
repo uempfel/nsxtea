@@ -1,6 +1,6 @@
 ![nsxtea logo](https://user-images.githubusercontent.com/28337775/106465522-593f6480-649a-11eb-9262-bf94e3add74a.png)
 
-Nsxtea is a small CLI to interact with the VMware NSX-T Policy Search API. Sip a cup of tea while others search in the GUI!
+Nsxtea is a small CLI to interact with the VMware NSX-T Search API. Sip a cup of tea while others search in the GUI!
 
 ## Installation
 Assuming you have already [installed go](https://golang.org/doc/install):
