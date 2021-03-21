@@ -31,14 +31,15 @@ var sortBy string
 var sortAscending bool
 var cursor string
 var pageSize string
+var useManagerApi bool
 
 
 
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search <query>",
-	Short: "Interact with the Policy Search API",
-	Long: `Interact with the Policy Search API
+	Short: "Interact with the Policy or Manager Search API",
+	Long: `Interact with the Policy or Manager Search API
 
 QUERY SYNTAX
 A query is broken up into terms and operators. 
@@ -100,7 +101,12 @@ Failing to escape these reserved characters correctly would lead to syntax error
 }
 
 func handleSearch(cmd *cobra.Command, args []string) {
-    req, err := http.NewRequest("GET", "https://"+ os.Getenv("NSXTEA_URL")+ "/policy/api/v1/search/query?", nil)
+
+    endpoint := "/api/v1/search/query?"
+    if !useManagerApi {
+      endpoint = "/policy" + endpoint
+    }
+    req, err := http.NewRequest("GET", "https://"+ os.Getenv("NSXTEA_URL")+ endpoint, nil)
 
     query := concatArgs(args)
     q := req.URL.Query()
@@ -130,13 +136,14 @@ func handleSearch(cmd *cobra.Command, args []string) {
 }
 
 func init() {
-	rootCmd.AddCommand(searchCmd)
 
+	rootCmd.AddCommand(searchCmd)
 	searchCmd.PersistentFlags().StringVarP(&includedFields, "included_fields", "f", "", "Comma separated list of fields that should be included in query result")
 	searchCmd.PersistentFlags().StringVarP(&sortBy, "sort_by", "s", "", "Field by which records are sorted")
-  	searchCmd.PersistentFlags().BoolVarP(&sortAscending, "sort_ascending","a", true, "Sorting order of the query results")
-  	searchCmd.PersistentFlags().StringVarP(&cursor, "cursor", "c", "", "Opaque cursor to be used for getting next page of records (supplied by current result page)")
-  	searchCmd.PersistentFlags().StringVarP(&pageSize, "page_size", "p", "1000", "Maximum number of results to return in this page \nMin: 0, Max: 1000")
+  searchCmd.PersistentFlags().BoolVarP(&sortAscending, "sort_ascending","a", true, "Sorting order of the query results")
+  searchCmd.PersistentFlags().StringVarP(&cursor, "cursor", "c", "", "Opaque cursor to be used for getting next page of records (supplied by current result page)")
+  searchCmd.PersistentFlags().StringVarP(&pageSize, "page_size", "p", "1000", "Maximum number of results to return in this page \nMin: 0, Max: 1000")
+  searchCmd.PersistentFlags().BoolVarP(&useManagerApi, "manager", "m", false, "Use the Manager API for the search request")
 }
 
 func concatArgs(args[] string) string {

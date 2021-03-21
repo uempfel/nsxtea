@@ -38,22 +38,29 @@ export NSXTEA_INSECURE='true'
 Simply type `nsxtea --help` to get help about `nsxtea`'s usage
 
 ```bash
+To configure the CLI, set the following environment variables:
+
+NSXTEA_URL (required)
+NSXTEA_USERNAME (required)
+NSXTEA_PASSWORD (required)
+NSXTEA_INSECURE (optional, default false)
+
 Usage:
   nsxtea [command]
 
 Available Commands:
   help        Help about any command
-  search      Interact with the Policy Search API
+  search      Interact with the Policy or Manager Search API
 
 Flags:
-      --config string   config file (default is $HOME/.nsxtea.yaml)
-  -h, --help            help for nsxtea
+  -h, --help   help for nsxtea
 
 Use "nsxtea [command] --help" for more information about a command.
 ```
 
 ### Search command
-This command lets you interact with the policy search API. It's a powerful tool to find all kinds of policy objects and filter results. The command returns a JSON string, which can be used for further processing.
+This command lets you interact with the Policy or Manager search API. It's a powerful tool to find all kinds of objects and filter results. The command returns a JSON string, which can be used for further processing.  
+By default, the command searches for Policy objects. If you would like to search for Manager objects instead, simply use the `--manager` flag.
 
 ```bash
 Usage:
@@ -63,13 +70,11 @@ Flags:
   -c, --cursor string            Opaque cursor to be used for getting next page of records (supplied by current result page)
   -h, --help                     help for search
   -f, --included_fields string   Comma separated list of fields that should be included in query result
-  -p, --page_size string         Maximum number of results to return in this page
+  -m, --manager                  Use the Manager API for the search request
+  -p, --page_size string         Maximum number of results to return in this page 
                                  Min: 0, Max: 1000 (default "1000")
   -a, --sort_ascending           Sorting order of the query results (default true)
   -s, --sort_by string           Field by which records are sorted
-
-Global Flags:
-      --config string   config file (default is $HOME/.nsxtea.yaml)
 ```
 
 #### Query Syntax
