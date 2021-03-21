@@ -6,6 +6,7 @@ Nsxtea is a small CLI to interact with the VMware NSX-T Policy Search API. Sip a
 Assuming you have already [installed go](https://golang.org/doc/install):
 
 ```sh
+export GO111MODULE=on
 go get github.com/uempfel/nsxtea
 go install github.com/uempfel/nsxtea
 ```
