@@ -8,7 +8,6 @@ Assuming you have already [installed go](https://golang.org/doc/install):
 ```sh
 export GO111MODULE=on
 go get github.com/uempfel/nsxtea
-go install github.com/uempfel/nsxtea@latest
 ```
 
 If you're getting  a `command not found` error, you might have to add your "go binary" directory to your PATH. To do so, run:
