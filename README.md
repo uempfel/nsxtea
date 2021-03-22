@@ -2,6 +2,9 @@
 
 Nsxtea is a small CLI to interact with the VMware NSX-T Search API. Sip a cup of tea while others search in the GUI!
 
+## NSX-T Version compatibility
+The CLI will only work with NSX-T versions `3.0` and above. Unfortunately, the API endpoints `nsxtea` relies on are not available in previous versions.  
+
 ## Installation
 Assuming you have already [installed go](https://golang.org/doc/install):
 
