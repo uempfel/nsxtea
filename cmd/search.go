@@ -19,11 +19,11 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"os"
-	"net/http"
 	"io/ioutil"
+	"net/http"
+	"os"
 	"strconv"
-    "strings"
+	"strings"
 )
 
 var includedFields string
@@ -32,8 +32,6 @@ var sortAscending bool
 var cursor string
 var pageSize string
 var useManagerApi bool
-
-
 
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
@@ -96,43 +94,43 @@ To search for (a+b)=c
 The reserved characters are: + - = && || > < ! ( ) { } [ ] ^ " ~ * ? : \ /
 Failing to escape these reserved characters correctly would lead to syntax errors and prevent the query from running.	
 `,
-    Run: handleSearch,
-    Args: cobra.MinimumNArgs(1),
+	Run:  handleSearch,
+	Args: cobra.MinimumNArgs(1),
 }
 
 func handleSearch(cmd *cobra.Command, args []string) {
 
-    endpoint := "/api/v1/search/query?"
-    if !useManagerApi {
-      endpoint = "/policy" + endpoint
-    }
-    req, err := http.NewRequest("GET", "https://"+ os.Getenv("NSXTEA_URL")+ endpoint, nil)
+	endpoint := "/api/v1/search/query?"
+	if !useManagerApi {
+		endpoint = "/policy" + endpoint
+	}
+	req, err := http.NewRequest("GET", "https://"+url+endpoint, nil)
 
-    query := concatArgs(args)
-    q := req.URL.Query()
-    q.Add("query", query)
-    q.Add("included_fields", includedFields)
-    q.Add("sort_ascending", strconv.FormatBool(sortAscending))
-    q.Add("sort_by", sortBy)
-    q.Add("cursor", cursor)
-    q.Add("page_size", pageSize)
-    req.URL.RawQuery = q.Encode()
+	query := concatArgs(args)
+	q := req.URL.Query()
+	q.Add("query", query)
+	q.Add("included_fields", includedFields)
+	q.Add("sort_ascending", strconv.FormatBool(sortAscending))
+	q.Add("sort_by", sortBy)
+	q.Add("cursor", cursor)
+	q.Add("page_size", pageSize)
+	req.URL.RawQuery = q.Encode()
 
-    req.SetBasicAuth(
-        os.Getenv("NSXTEA_USERNAME"),
-        os.Getenv("NSXTEA_PASSWORD"),
-    )    
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil{
-        fmt.Println(err)
-        os.Exit(1)
-    }
+	req.SetBasicAuth(
+		userName,
+		password,
+	)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 
-    bodyText, err := ioutil.ReadAll(resp.Body)
-    printErrIfNotNil(err)
-    s := string(bodyText)
-    fmt.Println(s)
+	bodyText, err := ioutil.ReadAll(resp.Body)
+	printErrIfNotNil(err)
+	s := string(bodyText)
+	fmt.Println(s)
 }
 
 func init() {
@@ -140,13 +138,13 @@ func init() {
 	rootCmd.AddCommand(searchCmd)
 	searchCmd.PersistentFlags().StringVarP(&includedFields, "included_fields", "f", "", "Comma separated list of fields that should be included in query result")
 	searchCmd.PersistentFlags().StringVarP(&sortBy, "sort_by", "s", "", "Field by which records are sorted")
-  searchCmd.PersistentFlags().BoolVarP(&sortAscending, "sort_ascending","a", true, "Sorting order of the query results")
-  searchCmd.PersistentFlags().StringVarP(&cursor, "cursor", "c", "", "Opaque cursor to be used for getting next page of records (supplied by current result page)")
-  searchCmd.PersistentFlags().StringVarP(&pageSize, "page_size", "p", "1000", "Maximum number of results to return in this page \nMin: 0, Max: 1000")
-  searchCmd.PersistentFlags().BoolVarP(&useManagerApi, "manager", "m", false, "Use the Manager API for the search request")
+	searchCmd.PersistentFlags().BoolVarP(&sortAscending, "sort_ascending", "a", true, "Sorting order of the query results")
+	searchCmd.PersistentFlags().StringVarP(&cursor, "cursor", "c", "", "Opaque cursor to be used for getting next page of records (supplied by current result page)")
+	searchCmd.PersistentFlags().StringVarP(&pageSize, "page_size", "p", "1000", "Maximum number of results to return in this page \nMin: 0, Max: 1000")
+	searchCmd.PersistentFlags().BoolVarP(&useManagerApi, "manager", "m", false, "Use the Manager API for the search request")
 }
 
-func concatArgs(args[] string) string {
+func concatArgs(args []string) string {
 	var concatArgs string
 	for i := 0; i < len(args); i++ {
 		concatArgs += args[i] + " "
@@ -159,4 +157,3 @@ func printErrIfNotNil(err error) {
 		fmt.Println(err)
 	}
 }
-
