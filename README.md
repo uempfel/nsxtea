@@ -254,7 +254,7 @@ That's it! The objects should be created and be available after a short time.
 #### Updating and deleting objects
 To update objects, simply adapt the file with the necessary configuration and re-run `nsxtea apply`.  
 
-Deleting the objects created in the example above is as simple as changing the `marked_for_delete` properties from `true` to `false`. Once you've done that, simply re-run `nsxtea apply` and the objects should be deleted after a short time.
+Deleting the objects created in the example above is as simple as changing the `marked_for_delete` properties from `false` to `true`. Once you've done that, simply re-run `nsxtea apply` and the objects should be deleted after a short time.
 
 ### Image Credits
 * Gopher: [Maria Letta - Free Gophers Pack](https://github.com/MariaLetta/free-gophers-pack)
