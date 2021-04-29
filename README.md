@@ -51,6 +51,7 @@ Usage:
   nsxtea [command]
 
 Available Commands:
+  apply       Interact with the Hierarchical Policy API
   help        Help about any command
   search      Interact with the Policy or Manager Search API
 
@@ -140,6 +141,94 @@ The reserved characters are: `+ - = && || > < ! ( ) { } [ ] ^ " ~ * ? : \ /`
 
 Failing to escape these reserved characters correctly would lead to syntax errors and prevent the query from running.
 
+
+### Apply command
+This command lets you interact with Hierarchical Policy API. It's enables declarative creation, updates and deletion of Policy Objects. To get an overview on how to create objects with the Hierarchical API, this [VMware Blog by Madhukar Krishnarao](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/) is highly recommended.  
+Please refer to [the official API docs](https://vdc-download.vmware.com/vmwb-repository/dcr-public/d6de7a5e-636f-4677-8dbd-6f4ba91fa5e0/36b4881c-41cd-4c46-81d1-b2ca3a6c693b/api_includes/method_PatchInfra.html) for all objects that can be created.
+
+```bash
+Decalaratively apply configurations via yaml or json
+files.
+
+Examples:
+nsxtea apply -f infra.yaml
+nsxtea apply -f infra.json
+
+Usage:
+  nsxtea apply [flags]
+
+Flags:
+  -f, --filepath string   Path to the file that contains the configuration to apply
+  -h, --help              help for apply
+```
+
+#### Example
+The following example is taken from the Blog referenced above. It creates a Tier0 and a connected Tier1 Router in one call.
+
+1) Create a file containing the Objects you want to create. The `apply` command accepts json and yaml input.
+* Example as yaml: `infra.yaml`
+```yaml
+resource_type: Infra
+display_name: infra
+children:
+  - resource_type: ChildTier1
+    marked_for_delete: "false"
+    Tier1:
+      resource_type: Tier1
+      display_name: my-Tier-1-GW-Prod
+      id: my-Tier-1-GW-Prod
+      tier0_path: /infra/tier-0s/Tier-0-GW-West-01
+  - resource_type: ChildTier0
+    marked_for_delete: "false"
+    Tier0:
+      resource_type: Tier0
+      display_name: Tier-0-GW-West-01-Disconnected
+      id: Tier-0-GW-West-01
+```
+
+* The same Objects a json (taken from [Madhukar Krishnarao's Blog](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/)): `infra.json`
+```json
+{
+  "resource_type": "Infra",
+  "display_name": "infra",
+  "children": [
+    {
+      "resource_type": "ChildTier1",
+      "marked_for_delete": "false",
+      "Tier1": {
+        "resource_type": "Tier1",
+        "display_name": "my-Tier-1-GW-Prod",
+        "id": "my-Tier-1-GW-Prod",
+        "tier0_path": "/infra/tier-0s/Tier-0-GW-West-01"
+      }
+    },
+    {
+      "resource_type": "ChildTier0",
+      "marked_for_delete": "false",
+      "Tier0": {
+        "resource_type": "Tier0",
+        "display_name": "Tier-0-GW-West-01-Disconnected",
+        "id": "Tier-0-GW-West-01"
+      }
+    }
+  ]
+}
+````
+
+2) Run the apply command providing the path to the file you created
+```bash
+# Apply as yaml
+nsxtea apply -f path/to/infra.yaml
+# Apply as json
+nsxtea apply -f path/to/infra.json
+```
+
+That's it! The objects should be created and be available after a short time.  
+
+#### Updating and deleting objects
+To update objects, simply adapt the file with the necessary configuration and re-run `nsxtea apply`.  
+
+Deleting the objects created in the example above is as simple as changing the `marked_for_delete` properties from `true` to `false`. Once you've done that, simply re-run `nsxtea apply` and the objects should be deleted after a short time.
 
 ### Image Credits
 * Gopher: [Maria Letta - Free Gophers Pack](https://github.com/MariaLetta/free-gophers-pack)
