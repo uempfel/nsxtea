@@ -18,13 +18,16 @@ package cmd
 import (
 	"crypto/tls"
 	"fmt"
+	"github.com/spf13/cobra"
 	"net/http"
 	"os"
 	"strconv"
-	"github.com/spf13/cobra"
 )
 
-var cfgFile string
+var userName string
+var password string
+var url string
+var nsxtInsecure bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -47,6 +50,10 @@ func Execute() {
 }
 
 func init() {
+
+	userName = os.Getenv("NSXTEA_USERNAME")
+	password = os.Getenv("NSXTEA_PASSWORD")
+	url = os.Getenv("NSXTEA_URL")
 
 	nsxtInsecure, err := strconv.ParseBool(os.Getenv("NSXTEA_INSECURE"))
 	if err != nil {
