@@ -6,6 +6,28 @@ Nsxtea is a small CLI to interact with the VMware NSX-T Search API. Sip a cup of
 The CLI will only work with NSX-T versions `3.0` and above. Unfortunately, the API endpoints `nsxtea` relies on are not available in previous versions.  
 
 ## Installation
+The CLI can be installed via two methods.
+
+### Installation via binary
+Binaries for Linux, macOS and Windows are available on the [repos's release page](https://github.com/uempfel/nsxtea/releases).  
+To the install `nsxtea` this way, follow these steps:
+
+```bash
+# Set a variable to the release version you want to download
+export NSXTEA_VERSION=0.1.0
+# Download the release for your platform (macOS in this example)
+curl -L https://github.com/uempfel/nsxtea/releases/download/v${NSXTEA_VERSION}/nsxtea_${NSXTEA_VERSION}_Darwin_x86_64.tar.gz -o nsxtea.tar.gz
+
+# Unpack the compressed folder 
+tar -xvzf nsxtea.tar.gz
+x LICENSE
+x README.md
+x nsxtea
+# Move the binary to your PATH
+mv nsxtea /usr/local/bin
+```
+
+### Installation via go
 Assuming you have already [installed go](https://golang.org/doc/install):
 
 ```sh
@@ -37,6 +59,10 @@ export NSXTEA_INSECURE='true'
 
 
 ## Usage
+Currently, nsxtea supports two commands, which are documented below:  
+* [search](#search-command)
+* [apply](#apply-command)
+
 Simply type `nsxtea --help` to get help about `nsxtea`'s usage
 
 ```bash
