@@ -212,7 +212,7 @@ children:
       id: Tier-0-GW-West-01
 ```
 
-* The same Objects a json (taken from [Madhukar Krishnarao's Blog](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/)): `infra.json`
+* The same objects as json (taken from [Madhukar Krishnarao's Blog](https://blogs.vmware.com/networkvirtualization/2020/06/navigating-nsxt-policy-apis.html/)): `infra.json`
 ```json
 {
   "resource_type": "Infra",
