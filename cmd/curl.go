@@ -30,6 +30,7 @@ import (
 
 var bodyData string
 var method string
+var override bool
 
 var curlCmd = &cobra.Command{
 	Use:   "curl <endpoint>",
@@ -77,6 +78,9 @@ func handleCurl(cmd *cobra.Command, args []string) {
 		os.Exit(1)
 	}
 	req.Header.Set("Content-Type", "application/json")
+	if override {
+		req.Header.Set("X-Allow-Overwrite", "true")
+	}
 	req.SetBasicAuth(userName, password)
 
 	client := &http.Client{}
@@ -96,4 +100,5 @@ func init() {
 	rootCmd.AddCommand(curlCmd)
 	curlCmd.PersistentFlags().StringVarP(&bodyData, "data", "d", "", "Body data. @ allowed")
 	curlCmd.PersistentFlags().StringVarP(&method, "method", "X", "GET", "HTTP Method")
+	curlCmd.PersistentFlags().BoolVarP(&override, "override", "o", false, "Add the 'X-Allow-Overwrite: true' header to mutate protected objects")
 }
