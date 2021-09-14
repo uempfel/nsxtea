@@ -14,7 +14,7 @@ To the install `nsxtea` this way, follow these steps:
 
 ```bash
 # Set a variable to the release version you want to download
-export NSXTEA_VERSION=0.1.0
+export NSXTEA_VERSION=0.3.0
 # Download the release for your platform (macOS in this example)
 curl -L https://github.com/uempfel/nsxtea/releases/download/v${NSXTEA_VERSION}/nsxtea_${NSXTEA_VERSION}_Darwin_x86_64.tar.gz -o nsxtea.tar.gz
 
