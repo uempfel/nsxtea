@@ -98,7 +98,7 @@ func handleCurl(cmd *cobra.Command, args []string) {
 
 func init() {
 	rootCmd.AddCommand(curlCmd)
-	curlCmd.PersistentFlags().StringVarP(&bodyData, "data", "d", "", "Body data. @ allowed")
+	curlCmd.PersistentFlags().StringVarP(&bodyData, "data", "d", "", "Body data. You can specifiy a path to a yaml or json file with the '@' prefix")
 	curlCmd.PersistentFlags().StringVarP(&method, "method", "X", "GET", "HTTP Method")
 	curlCmd.PersistentFlags().BoolVarP(&override, "override", "o", false, "Add the 'X-Allow-Overwrite: true' header to mutate protected objects")
 }
