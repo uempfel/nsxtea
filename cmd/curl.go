@@ -33,13 +33,12 @@ var method string
 
 var curlCmd = &cobra.Command{
 	Use:   "curl <endpoint>",
-	Short: "Interact with the Hierarchical Policy API",
-	Long: `Decalaratively apply configurations via yaml or json
-files.
+	Short: "Interact with NSX-T's REST-API",
+	Long: `Interact with NSX-T's REST-API.
 
 Examples:
-nsxtea apply -f infra.yaml
-nsxtea apply -f infra.json`,
+nsxtea curl -X DELETE  /policy/api/v1/
+nsxtea curl -X PUT /api/v1/certificate -d @path-to-body-file`,
 	Run: handleCurl,
 	Args: cobra.MinimumNArgs(1),
 }

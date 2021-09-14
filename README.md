@@ -59,9 +59,10 @@ export NSXTEA_INSECURE='true'
 
 
 ## Usage
-Currently, nsxtea supports two commands, which are documented below:  
+Currently, nsxtea supports three commands, which are documented below:  
 * [search](#search-command)
 * [apply](#apply-command)
+* [curl](#curl-command)
 
 Simply type `nsxtea --help` to get help about `nsxtea`'s usage
 
@@ -255,6 +256,9 @@ That's it! The objects should be created and be available after a short time.
 To update objects, simply adapt the file with the necessary configuration and re-run `nsxtea apply`.  
 
 Deleting the objects created in the example above is as simple as changing the `marked_for_delete` properties from `false` to `true`. Once you've done that, simply re-run `nsxtea apply` and the objects should be deleted after a short time.
+
+### Curl command
+Sometimes you need full control over the API. This is where the `nsxtea curl` command come in. It let's you 
 
 ### Image Credits
 * Gopher: [Maria Letta - Free Gophers Pack](https://github.com/MariaLetta/free-gophers-pack)
