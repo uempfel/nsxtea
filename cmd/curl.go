@@ -34,12 +34,11 @@ var override bool
 
 var curlCmd = &cobra.Command{
 	Use:   "curl <endpoint>",
-	Short: "Interact with NSX-T's REST-API",
-	Long: `Interact with NSX-T's REST-API.
+	Short: "Interact with any API endpoint",
+	Long: `Interact with any API endpoint
 
 Examples:
-nsxtea curl -X DELETE  /policy/api/v1/
-nsxtea curl -X PUT /api/v1/certificate -d @path-to-body-file`,
+nsxtea curl -X PATCH /policy/api/v1/infra -d @path-to-body-file`,
 	Run: handleCurl,
 	Args: cobra.MinimumNArgs(1),
 }
