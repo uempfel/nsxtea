@@ -14,7 +14,7 @@ To the install `nsxtea` this way, follow these steps:
 
 ```bash
 # Set a variable to the release version you want to download
-export NSXTEA_VERSION=0.1.0
+export NSXTEA_VERSION=0.3.0
 # Download the release for your platform (macOS in this example)
 curl -L https://github.com/uempfel/nsxtea/releases/download/v${NSXTEA_VERSION}/nsxtea_${NSXTEA_VERSION}_Darwin_x86_64.tar.gz -o nsxtea.tar.gz
 
@@ -59,9 +59,10 @@ export NSXTEA_INSECURE='true'
 
 
 ## Usage
-Currently, nsxtea supports two commands, which are documented below:  
+Currently, nsxtea supports three commands, which are documented below:  
 * [search](#search-command)
 * [apply](#apply-command)
+* [curl](#curl-command)
 
 Simply type `nsxtea --help` to get help about `nsxtea`'s usage
 
@@ -78,6 +79,7 @@ Usage:
 
 Available Commands:
   apply       Interact with the Hierarchical Policy API
+  curl        Interact with any API endpoint
   help        Help about any command
   search      Interact with the Policy or Manager Search API
 
@@ -255,6 +257,25 @@ That's it! The objects should be created and be available after a short time.
 To update objects, simply adapt the file with the necessary configuration and re-run `nsxtea apply`.  
 
 Deleting the objects created in the example above is as simple as changing the `marked_for_delete` properties from `false` to `true`. Once you've done that, simply re-run `nsxtea apply` and the objects should be deleted after a short time.
+
+### Curl command
+Sometimes you need full control over the API. This is where the `nsxtea curl` command comes in. It enables you to interact with any endpoint documented in the official docs.  
+
+```bash
+Interact with any API endpoint
+
+Examples:
+nsxtea curl -X PATCH /policy/api/v1/infra -d @path-to-body-file
+
+Usage:
+  nsxtea curl <endpoint> [flags]
+
+Flags:
+  -d, --data string     Body data. You can specifiy a path to a yaml or json file with the '@' prefix
+  -h, --help            help for curl
+  -X, --method string   HTTP Method (default "GET")
+  -o, --override        Add the 'X-Allow-Overwrite: true' header to mutate protected objects
+```
 
 ### Image Credits
 * Gopher: [Maria Letta - Free Gophers Pack](https://github.com/MariaLetta/free-gophers-pack)

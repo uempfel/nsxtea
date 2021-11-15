@@ -31,7 +31,7 @@ var nsxtInsecure bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Version: "0.2.1",
+	Version: "0.3.0",
 	Use:   "nsxtea",
 	Short: "A Command Line Tool to interact with the NSX-T API",
 	Long: `To configure the CLI, set the following environment variables:
